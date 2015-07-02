@@ -132,4 +132,22 @@
  * Contains aroundLatLong query (you should use searchAroundLatitude:longitude:maxDist selector to set it)
  */
 @property (strong, nonatomic) NSString             *aroundLatLong;
+
+/**
+ * Filter the query by a list of facets. Each facet is encoded as `attributeName:value`. For example: ["category:Book","author:John%20Doe"].
+ */
+@property (nonatomic) NSArray             *facetFilters;
+
+/**
+ * Filter the query by a list of facets encoded as one string by example "(category:Book,author:John)"
+ */
+@property (nonatomic) NSString            *facetFiltersRaw;
+
+/**
+ * List of object attributes that you want to use for faceting.
+ * Only attributes that have been added in **attributesForFaceting** index setting can be used in this parameter.
+ * You can also use `*` to perform faceting on all attributes specified in **attributesForFaceting**.
+ */
+@property (nonatomic) NSArray             *facets;
+
 @end

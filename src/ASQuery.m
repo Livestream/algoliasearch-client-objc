@@ -49,6 +49,10 @@
         self.insideBoundingBox = nil;
         self.aroundLatLong = nil;
         self.queryType = nil;
+
+        self.facetFilters = nil;
+        self.facetFiltersRaw = nil;
+        self.facets = nil;
     }
     return self;
 }
@@ -71,6 +75,10 @@
         self.insideBoundingBox = nil;
         self.aroundLatLong = nil;
         self.queryType = nil;
+
+        self.facetFilters = nil;
+        self.facetFiltersRaw = nil;
+        self.facets = nil;
     }
     return self;
 }
@@ -124,6 +132,39 @@
             first = NO;
         }
     }
+    /****/
+    if (self.facetFilters != nil) {
+        if ([stringBuilder length] > 0)
+            [stringBuilder appendString:@"&"];
+        [stringBuilder appendString:@"facetFilters="];
+        NSError* err = nil;
+        NSData *data = [NSJSONSerialization dataWithJSONObject:self.facetFilters options:NSJSONWritingPrettyPrinted error:&err];
+        if (err == nil) {
+            NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            [stringBuilder appendString:[ASAPIClient urlEncode:jsonString]];
+        } else {
+            @throw [NSException exceptionWithName:@"InvalidArgument" reason:@"Invalid facetFilters (should be an array of string)" userInfo:nil];
+        }
+    } else if (self.facetFiltersRaw != nil) {
+        if ([stringBuilder length] > 0)
+            [stringBuilder appendString:@"&"];
+        [stringBuilder appendString:@"facetFilters="];
+        [stringBuilder appendString:[ASAPIClient urlEncode:self.facetFiltersRaw]];
+    }
+
+    if (self.facets != nil) {
+        if ([stringBuilder length] > 0)
+            [stringBuilder appendString:@"&"];
+        [stringBuilder appendString:@"facets="];
+        BOOL first = YES;
+        for (NSString* attribute in self.facets) {
+            if (!first)
+                [stringBuilder appendString:@","];
+            [stringBuilder appendString:[ASAPIClient urlEncode:attribute]];
+            first = NO;
+        }
+    }
+    /****/
     if (self.minWordSizeForApprox1 != 3) {
         if ([stringBuilder length] > 0)
             [stringBuilder appendString:@"&"];
