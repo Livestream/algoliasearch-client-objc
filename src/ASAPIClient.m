@@ -71,7 +71,7 @@
             @throw [NSException exceptionWithName:@"InvalidArgument" reason:@"List of hosts must be set" userInfo:nil];
         NSMutableArray *httpClients = [[NSMutableArray alloc] init];
         for (NSString *host in self.hostnames) {
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://%@", host]];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@", LS_HTTP_SCHEME, host]];
             AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
             [httpClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
             [httpClient setDefaultHeader:@"Accept" value:@"application/json"];
