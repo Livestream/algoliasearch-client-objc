@@ -9,6 +9,8 @@ Pod::Spec.new do |s|
   s.source_files = 'src'
   s.requires_arc = true
 
+  s.prefix_header_file = '../../Livestream/Supporting Files/iOS/Livestream-Defines.h'
+
   s.ios.deployment_target = '5.0'
   s.ios.frameworks = 'MobileCoreServices', 'SystemConfiguration', 'Security'
 
@@ -16,4 +18,5 @@ Pod::Spec.new do |s|
   s.osx.frameworks = 'CoreServices', 'SystemConfiguration', 'Security'
 
   s.dependency 'AFNetworking', '~> 1.2'
+
 end
